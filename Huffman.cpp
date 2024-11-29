@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <unordered_map>
 
 #include "treeWrapper.h"
 
@@ -10,7 +11,7 @@ unordered_map<char, int> letterCounter(string input);
 
 int main() {
 
-    string input = "aaaabbbcdd";
+    string input = "aaaabbbcddhhiiiii";
 
     unordered_map<char, int> letterCounted = letterCounter(input);
 
