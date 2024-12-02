@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// Function declaration
 unordered_map<char, int> letterCounter(string input);
 TreeWrapper createTrees(const unordered_map<char, int>& letterCounted);
 
@@ -14,9 +15,13 @@ int main() {
 
     string input = "aaaabbbcddhhiiiii";
 
+    // Count the frequency of each character in the input
     unordered_map<char, int> letterCounted = letterCounter(input);
+
+    // Create and merge trees using the character frequency map
     TreeWrapper queue = createTrees(letterCounted);
 
+    // Print the resulting Huffman tree
     vector<char> bitString;
     queue.tree->printTree(bitString);
     
@@ -42,7 +47,7 @@ unordered_map<char, int> letterCounter(string input) {
         }
     }
 
-    // Return the map containing character counts
+    // Return the map containing character frequencies
     return letterMap;
 }
 
@@ -51,22 +56,26 @@ TreeWrapper createTrees(const unordered_map<char, int>& letterCounted){
 
     priority_queue<TreeWrapper> q;
 
-    // Create base trees and put them in a queue
+    // Create base trees for each character-frequency pair
     for(const auto & pair: letterCounted) {
+        // Create a TreeWrapper object for each character and push it into the priority queue
         q.push(TreeWrapper(new Tree(pair.second, pair.first)));
     }
 
+    // Merge trees in the priority queue until a single tree remains
     while (q.size() > 1) {
+
+        // Extract the two trees with the smallest weights
         Tree* t1 = q.top().tree; 
         q.pop();
         Tree* t2 = q.top().tree;
         q.pop();
 
-        //Merge first and second spot in queue
+        //Create a new merges tree with the combined weight
         int weight = t1->getWeight() + t2->getWeight();
         q.push(TreeWrapper(new Tree(weight, t1, t2)));
     }
 
-    
+    // Return the root of the final merged tree
     return q.top();
 }
